@@ -2,10 +2,10 @@
 /**
  * Copyright 2026 Arte e Informatica di Loris Modena e C. s.a.s.
  *
- * @version   1.0.0
+ * @version   1.0.1
  * @author    Tecnoacquisti.com <helpdesk@tecnoacquisti.com>
  * @copyright 2026 Arte e Informatica di Loris Modena e C. s.a.s.
- * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0
+ * @license   https://opensource.org/licenses/MIT MIT License
  */
 declare(strict_types=1);
 
@@ -25,7 +25,7 @@ class TecInputGuard extends Module
     {
         $this->name = 'tecinputguard';
         $this->tab = 'administration';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'Tecnoacquisti.com';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -34,7 +34,7 @@ class TecInputGuard extends Module
         parent::__construct();
 
         $this->displayName = $this->l('Login and cart input guard');
-        $this->description = $this->l('Rejects malformed login and cart inputs before legacy core processing.');
+        $this->description = $this->l('Guards PrestaShop 8.2 against invalid login input types (issue #42963) and malformed cart quantities (issue #31570), without editing core files.');
         $this->confirmUninstall = $this->l('Remove the input guards and restore the original core behavior?');
     }
 

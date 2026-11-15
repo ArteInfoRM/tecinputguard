@@ -4,7 +4,7 @@
  *
  * @author    Tecnoacquisti.com <helpdesk@tecnoacquisti.com>
  * @copyright 2026 Arte e Informatica di Loris Modena e C. s.a.s.
- * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0
+ * @license   https://opensource.org/licenses/MIT MIT License
  */
 declare(strict_types=1);
 

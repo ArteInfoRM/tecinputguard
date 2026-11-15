@@ -2,7 +2,7 @@
 /**
  * Copyright 2026 Arte e Informatica di Loris Modena e C. s.a.s.
  *
- * @license https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0
+ * @license https://opensource.org/licenses/MIT MIT License
  */
 declare(strict_types=1);
 
@@ -11,7 +11,12 @@ if (PHP_SAPI !== 'cli' || empty($argv[1])) {
     exit(1);
 }
 
-define('_PS_VERSION_', '8.2.9');
+// Select the version of the externally supplied source fixtures.
+$coreVersion = $argv[2] ?? '8.2.9';
+if (!preg_match('/\A[0-9]+\.[0-9]+\.[0-9]+(?:\.[0-9]+)?\z/D', $coreVersion)) {
+    exit(1);
+}
+define('_PS_VERSION_', $coreVersion);
 
 /** Test double for activation, without database or shop mutation. */
 class Module
@@ -64,8 +69,8 @@ class Tools
     }
 }
 
-require $argv[1] . '/8.2.9-CustomerLoginForm.php';
-require $argv[1] . '/8.2.9-CartController.php';
+require $argv[1] . '/CustomerLoginForm.php';
+require $argv[1] . '/CartController.php';
 require dirname(__DIR__) . '/override/classes/form/CustomerLoginForm.php';
 require dirname(__DIR__) . '/override/controllers/front/CartController.php';
 
@@ -119,4 +124,4 @@ foreach ([null, '0', '1', '01', '0000000001', '2147483647', 1] as $quantity) {
     $assert($property->getValue($cart) === ($quantity === null ? 1 : (int) $quantity), 'Native quantity preserved');
 }
 $assert(FrontController::$calls === 7, 'Parent initialization called exactly once per request');
-echo json_encode(['checks' => $checks, 'passed' => $checks, 'core_fixtures' => '8.2.9', 'scope' => 'Isolated method contracts; not a full 8.2.9 shop']) . PHP_EOL;
+echo json_encode(['checks' => $checks, 'passed' => $checks, 'core_fixtures' => $coreVersion, 'scope' => 'Isolated method contracts; not a full shop installation']) . PHP_EOL;
