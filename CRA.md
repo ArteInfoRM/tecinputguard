@@ -1,6 +1,6 @@
 # Security evidence
 
-Tecnoacquisti.com® maintains an internal dependency inventory, CycloneDX SBOM, risk assessment and verification record for tecinputguard 1.0.1. The module introduces two narrowly scoped overrides and no database tables, configuration values, remote services, bundled third-party libraries or public module endpoints.
+Tecnoacquisti.com® maintains an internal dependency inventory, CycloneDX SBOM, risk assessment and verification record for tecinputguard 1.0.2. The module introduces two narrowly scoped overrides and no database tables, configuration values, remote services, bundled third-party libraries or public module endpoints.
 
 The compatibility scope remains PrestaShop 8.2.x. See README.md for tested environments and installation/recovery instructions; SECURITY.md for private reporting; and THIRD-PARTY-NOTICES.md for host dependencies and licensing.
 

@@ -2,10 +2,10 @@
 /**
  * Copyright 2026 Arte e Informatica di Loris Modena e C. s.a.s.
  *
- * @version   1.0.1
  * @author    Tecnoacquisti.com <helpdesk@tecnoacquisti.com>
  * @copyright 2026 Arte e Informatica di Loris Modena e C. s.a.s.
  * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   1.0.2
  */
 declare(strict_types=1);
 
@@ -25,7 +25,7 @@ class TecInputGuard extends Module
     {
         $this->name = 'tecinputguard';
         $this->tab = 'administration';
-        $this->version = '1.0.1';
+        $this->version = '1.0.2';
         $this->author = 'Tecnoacquisti.com';
         $this->need_instance = 0;
         $this->bootstrap = true;
