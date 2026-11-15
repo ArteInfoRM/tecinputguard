@@ -1,0 +1,9 @@
+/config*.xml
+/dist/
+/.keep
+*.zip
+*.log
+/.env
+/.env.*
+/sbom.cdx.json
+/compliance-internal/

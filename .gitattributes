@@ -1,0 +1,11 @@
+* text=auto eol=lf
+/config*.xml export-ignore
+/dist/ export-ignore
+/tests/ export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/.keep export-ignore
+/sbom.cdx.json export-ignore
+/compliance-internal/ export-ignore
+/AGENTS.md export-ignore
+/CLAUDE.md export-ignore

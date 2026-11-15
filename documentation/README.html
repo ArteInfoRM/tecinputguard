@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tecinputguard - README</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --text: #1f2933;
+            --muted: #5f6b7a;
+            --border: #d8dee6;
+            --panel: #f6f8fa;
+            --accent: #0b7285;
+        }
+        body {
+            margin: 0;
+            background: #fff;
+            color: var(--text);
+            font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        }
+        main {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 32px 24px 56px;
+        }
+        h1, h2, h3, h4 {
+            line-height: 1.25;
+            margin: 1.8em 0 .6em;
+        }
+        h1 {
+            margin-top: 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 2rem;
+        }
+        h2 {
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.45rem;
+        }
+        h3 {
+            font-size: 1.18rem;
+        }
+        p {
+            margin: .7em 0;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        blockquote {
+            margin: 1em 0;
+            padding: .7em 1em;
+            color: var(--muted);
+            border-left: 4px solid var(--border);
+            background: var(--panel);
+        }
+        code {
+            padding: .15em .35em;
+            border-radius: 4px;
+            background: var(--panel);
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            font-size: .92em;
+        }
+        pre {
+            overflow: auto;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--panel);
+        }
+        pre code {
+            padding: 0;
+            background: transparent;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        th, td {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            vertical-align: top;
+        }
+        th {
+            background: var(--panel);
+            text-align: left;
+        }
+        ul, ol {
+            padding-left: 1.5em;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border);
+            margin: 2em 0;
+        }
+        .generated-note {
+            margin-bottom: 24px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--panel);
+            color: var(--muted);
+            font-size: .92em;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <div class="generated-note">Generated from the Markdown source included with the module.</div>
+<h1>Login and cart input guard</h1>
+<p>Tecnoacquisti.com® provides narrow input validation for the legacy PrestaShop 8.2 login form and cart controller. This module leaves core files unchanged and uses PrestaShop&#039;s native override installation mechanism.</p>
+<h2>Scope and behavior</h2>
+<ul>
+<li>Non-string <code>email</code> and <code>password</code> form values become empty strings before the original login form processes them. Required-field validation, authentication, password hashing and authentication hooks remain in the core.</li>
+<li>Cart <code>qty</code> must be an integer or an ASCII decimal string of 1–10 digits, between 0 and 2147483647. Missing quantity retains the native default of 1. Zero reaches native cart validation. Leading zeros are accepted within the length limit. Negative, signed, fractional, scientific notation, whitespace, control bytes, arrays and oversized values receive HTTP 400 before cart initialization.</li>
+<li>A supplied cart <code>token</code> must be a string. Its value is still checked by the core; this module never generates, replaces or approves a token. A missing token retains the native behavior.</li>
+<li>GET/POST precedence is preserved: POST takes precedence over GET, as in <code>Tools::getValue()</code>. Invalid requests return a fixed plain-text message, with <code>no-store</code> and <code>nosniff</code> headers, without reflecting input.</li>
+<li>Cart ownership, prices, stock, discounts, minimum quantities and checkout rules remain in the core and installed business modules.</li>
+</ul>
+<p>This is not a general firewall or a complete fix for all malformed PrestaShop parameters. It does not address password-reset controllers, unrelated IDs, redirects, other modules, or session-cookie lifetime.</p>
+<h2>Compatibility</h2>
+<p>This module is intentionally scoped to PrestaShop 8.2.x; the installation metadata accepts 8.2.0–8.2.99. Development testing uses PrestaShop 8.2.5 and PHP 8.1.34. It introduces no changes to the compatibility declarations of other workspace modules.</p>
+<p>The official 8.2.9 <code>CustomerLoginForm.php</code> and <code>CartController.php</code> files are byte-identical to the corresponding files in the local 8.2.5 environment examined on 15 November 2026. This supports source compatibility; it is not a full installation test on a separate 8.2.9 shop. Production deployment requires an inventory of existing overrides and the exact installed patch version. Custom cart integrations must send unsigned integer quantities and use the native <code>op=down</code> operation to decrease quantities. No production deployment is included in this work.</p>
+<p>Multishop installation and activation lifecycle have not been validated. Native override files are shared by all shops even though the runtime activation check is per shop. Review all-shop lifecycle behavior before using this module in a multishop installation.</p>
+<h2>Installation and recovery</h2>
+<p>Use the normal PrestaShop module manager. Overrides must be enabled, and the web process must be able to write to the relevant override directories and class-index cache. An existing override of either <code>CustomerLoginForm::fillWith()</code> or <code>CartController::init()</code> must be reviewed before installation; do not overwrite another module&#039;s code.</p>
+<p>The module creates no tables, configuration values, cron jobs, public controllers or external network calls. Activation is checked per shop. Standard disable/uninstall operations remove the module&#039;s overrides and restore native behavior, including the original malformed-input defects. Clear the PrestaShop class-index/cache if required and preserve web-process ownership. Do not manually delete unrelated overrides. If removal fails, resolve file permissions and retry the native operation.</p>
+<p>For a future update that changes override methods, disable the installed version before replacing its files, then enable the new version and verify the copied overrides. Keep a backup of existing override files. Global override disabling also disables this protection.</p>
+<h2>Upstream references</h2>
+<ul>
+<li>Login input types: <a href="https://github.com/PrestaShop/PrestaShop/issues/42963">issue #42963</a>, <a href="https://github.com/PrestaShop/PrestaShop/pull/42979">PR #42979</a>.</li>
+<li>Cart quantity types: <a href="https://github.com/PrestaShop/PrestaShop/issues/31570">issue #31570</a>, <a href="https://github.com/PrestaShop/PrestaShop/pull/31571">PR #31571</a>.</li>
+</ul>
+<p>The cart guard deliberately rejects malformed quantities rather than casting an array to a valid quantity. It is an independent guard, not a verbatim copy of the upstream patch.</p>
+<h2>Validation and release status</h2>
+<p>Version 1.0.0 is the initial source and installation-package release. No production installation has been validated. The internal test report records both successful checks and unrelated pre-existing failures. ZIP installation/upgrade testing and PrestaShop Validator submission remain manual release controls for the project owner.</p>
+<p>Support and security contact: helpdesk@tecnoacquisti.com.</p>
+<p>License: AFL-3.0; see <code>LICENSE.md</code>.</p>
+<p>Source and version tags: https://github.com/ArteInfoRM/tecinputguard</p>
+<p>Security evidence and remaining release controls: see CRA.md. The dependency SBOM and risk assessment are maintained in the internal release archive.</p>
+
+</main>
+</body>
+</html>
